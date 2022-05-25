@@ -1,6 +1,5 @@
 import { useNavigation } from '@react-navigation/core';
-import { StyleSheet, Image, View, TouchableHighlight, TouchableHighlightBase, TouchableOpacity, Pressable } from 'react-native'
-
+import { StyleSheet, Image, View, Pressable } from 'react-native'
 
 const Logo = () => {
     const navigation = useNavigation();
