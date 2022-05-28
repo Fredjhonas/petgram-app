@@ -1,5 +1,5 @@
 overwrite: true
-schema: `${API_BASE}/graphql`
+schema: "${API_BASE}/graphql"
 documents: "graphql/*.gql" 
 generates:
   ./types/graphql.ts:

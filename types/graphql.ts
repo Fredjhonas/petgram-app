@@ -110,6 +110,13 @@ export type GetFavsQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type GetFavsQuery = { __typename?: 'Query', favs?: Array<{ __typename?: 'Photo', id?: string | null, categoryId?: number | null, src?: string | null, likes?: number | null, userId?: string | null } | null> | null };
 
+export type GetPhotosQueryVariables = Exact<{
+  categoryId?: InputMaybe<Scalars['ID']>;
+}>;
+
+
+export type GetPhotosQuery = { __typename?: 'Query', photos?: Array<{ __typename?: 'Photo', id?: string | null, categoryId?: number | null, src?: string | null, likes?: number | null, userId?: string | null, liked?: boolean | null } | null> | null };
+
 export type GetSinglePhotoQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
@@ -177,6 +184,46 @@ export function useGetFavsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Ge
 export type GetFavsQueryHookResult = ReturnType<typeof useGetFavsQuery>;
 export type GetFavsLazyQueryHookResult = ReturnType<typeof useGetFavsLazyQuery>;
 export type GetFavsQueryResult = Apollo.QueryResult<GetFavsQuery, GetFavsQueryVariables>;
+export const GetPhotosDocument = gql`
+    query getPhotos($categoryId: ID) {
+  photos(categoryId: $categoryId) {
+    id
+    categoryId
+    src
+    likes
+    userId
+    liked
+  }
+}
+    `;
+
+/**
+ * __useGetPhotosQuery__
+ *
+ * To run a query within a React component, call `useGetPhotosQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetPhotosQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetPhotosQuery({
+ *   variables: {
+ *      categoryId: // value for 'categoryId'
+ *   },
+ * });
+ */
+export function useGetPhotosQuery(baseOptions?: Apollo.QueryHookOptions<GetPhotosQuery, GetPhotosQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetPhotosQuery, GetPhotosQueryVariables>(GetPhotosDocument, options);
+      }
+export function useGetPhotosLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetPhotosQuery, GetPhotosQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetPhotosQuery, GetPhotosQueryVariables>(GetPhotosDocument, options);
+        }
+export type GetPhotosQueryHookResult = ReturnType<typeof useGetPhotosQuery>;
+export type GetPhotosLazyQueryHookResult = ReturnType<typeof useGetPhotosLazyQuery>;
+export type GetPhotosQueryResult = Apollo.QueryResult<GetPhotosQuery, GetPhotosQueryVariables>;
 export const GetSinglePhotoDocument = gql`
     query getSinglePhoto($id: ID!) {
   photo(id: $id) {

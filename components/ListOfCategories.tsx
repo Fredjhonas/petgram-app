@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import { FlatList } from 'react-native';
+import { FlatList, StyleSheet } from 'react-native';
 import Category from './Category';
 
 interface IListCategoryProps {
@@ -10,12 +10,20 @@ interface IListCategoryProps {
 const ListOfCategoriesComponent = (props: IListCategoryProps) => {
   return (
     <FlatList
-      style={{ marginTop: 20 }}
+      style={styles.container}
       data={props.categories}
       horizontal
-      renderItem={({ item }) => <Category {...item} path={`/pet/${item.id}`} />}
+      renderItem={({ item }) => <Category {...item} />}
     />
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    marginTop: 5,
+    padding: 10,
+    height: 180,
+  }
+})
 
 export const ListOfCategories = memo(ListOfCategoriesComponent);

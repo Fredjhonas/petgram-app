@@ -9,7 +9,7 @@
     "web": "expo start --web",
     "eject": "expo eject",
     "test": "jest --watchAll",
-    "generate": "graphql-codegen --config codegen.yml"
+    "generate": "graphql-codegen --require dotenv/config --config codegen.yml"
   },
   "jest": {
     "preset": "jest-expo"
