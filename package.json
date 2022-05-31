@@ -21,6 +21,8 @@
     "@react-navigation/bottom-tabs": "^6.0.5",
     "@react-navigation/native": "^6.0.2",
     "@react-navigation/native-stack": "^6.1.0",
+    "apollo-link-context": "^1.0.20",
+    "apollo-link-http": "^1.5.17",
     "expo": "~45.0.0",
     "expo-asset": "~8.5.0",
     "expo-constants": "~13.1.1",

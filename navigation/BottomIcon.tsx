@@ -15,7 +15,7 @@ const BottomIcon = ({ type, color, name }: IBottomIconProps) => {
     const RightIcon = (props: { colorScheme: string }) => {
         return (
             <Pressable
-                onPress={() => navigation.navigate('Modal')}
+                onPress={() => navigation.navigate('Login')}
                 style={({ pressed }) => ({
                     opacity: pressed ? 0.5 : 1,
                     flexDirection: 'row'

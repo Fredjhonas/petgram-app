@@ -14,7 +14,9 @@ interface ICategoryProps {
 const Category = ({ cover = DEFAULT_IMAGE, emoji = '?', id }: ICategoryProps) => {
     const navigation = useNavigation();
     return (
-        <TouchableOpacity onPress={() => navigation.navigate('Home', { categoryId: id })} style={styles.container}>
+        <TouchableOpacity
+            onPress={() => navigation.navigate('Home', { categoryId: id })}
+            style={styles.container}>
             <Avatar.Image size={76} source={{ uri: cover }} style={styles.image} />
             <Text style={styles.text}>{emoji}</Text>
         </TouchableOpacity>

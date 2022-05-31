@@ -6,6 +6,7 @@ import { client } from './graphql'
 import useCachedResources from './hooks/useCachedResources';
 import useColorScheme from './hooks/useColorScheme';
 import Navigation from './navigation';
+import { UserProvider } from './Context/UserContext';
 
 export default function App() {
   const isLoadingComplete = useCachedResources();
@@ -17,8 +18,10 @@ export default function App() {
     return (
       <ApolloProvider client={client}>
         <SafeAreaProvider>
-          <Navigation colorScheme={colorScheme} />
-          <StatusBar />
+          <UserProvider>
+            <Navigation colorScheme={colorScheme} />
+            <StatusBar />
+          </UserProvider>
         </SafeAreaProvider>
       </ApolloProvider>
     );

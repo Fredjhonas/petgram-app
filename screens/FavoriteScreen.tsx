@@ -1,12 +1,11 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Text } from 'react-native';
 
-import EditScreenInfo from '../components/EditScreenInfo';
 import { View } from '../components/Themed';
 
-export default function TabTwoScreen() {
+export default function FavoriteScreen() {
   return (
     <View style={styles.container}>
-      <EditScreenInfo path="Detail" />
+      <Text>Favorites</Text>
     </View>
   );
 }

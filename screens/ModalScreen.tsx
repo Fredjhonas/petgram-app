@@ -1,16 +1,41 @@
 import { StatusBar } from 'expo-status-bar';
-import { Platform, StyleSheet } from 'react-native';
+import { Alert, Platform, StyleSheet } from 'react-native';
+import { useLoginMutation, useSignupMutation } from '../types/graphql';
 
-import EditScreenInfo from '../components/EditScreenInfo';
-import { Text, View } from '../components/Themed';
+// components
+import FormLogin from '../components/FormLogin';
+import { View } from '../components/Themed';
+import { useContext } from 'react';
+import { UserContext } from '../Context/UserContext';
 
 export default function ModalScreen() {
+  const loginMutation = useLoginMutation()
+  const signupMutation = useSignupMutation()
+  const { setUser } = useContext(UserContext)
+
+  const handleSubmit = async (isLogin: boolean, values: { email: string, password: string }) => {
+    const { email, password } = values
+    const mutation = isLogin ? loginMutation : signupMutation
+    try {
+      const response = await mutation[0]({
+        variables: {
+          input: {
+            email,
+            password
+          }
+        }
+      })
+      let userToken = isLogin ? response?.data?.login : response?.data?.signup
+      setUser({ email, token: userToken })
+      Alert.alert('Success', 'You have successfully logged in')
+    } catch (error) {
+      Alert.alert('Error', 'Something went wrong')
+    }
+  }
+
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Modal</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <EditScreenInfo path="/screens/ModalScreen.tsx" />
-
+      <FormLogin onSubmit={handleSubmit} />
       {/* Use a light status bar on iOS to account for the black space above the modal */}
       <StatusBar style={Platform.OS === 'ios' ? 'light' : 'auto'} />
     </View>
@@ -19,17 +44,8 @@ export default function ModalScreen() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    alignItems: 'center',
+    padding: 15,
     justifyContent: 'center',
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
-  },
+    flex: 1,
+  }
 });

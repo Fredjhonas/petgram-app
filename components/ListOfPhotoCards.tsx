@@ -10,7 +10,7 @@ interface IListOfPhotoCardsProps {
 }
 
 const ListOfPhotoCards = ({ categoryId }: IListOfPhotoCardsProps) => {
-  const { data, loading } = useGetPhotosQuery({ variables: { categoryId } })
+  const { data } = useGetPhotosQuery({ variables: { categoryId } })
   const likeMutation = useLikePhotoMutation()
 
   const handleLike = async (id: string) => {
