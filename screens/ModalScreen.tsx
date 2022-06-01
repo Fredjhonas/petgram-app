@@ -7,11 +7,13 @@ import FormLogin from '../components/FormLogin';
 import { View } from '../components/Themed';
 import { useContext } from 'react';
 import { UserContext } from '../Context/UserContext';
+import { useNavigation } from '@react-navigation/core';
 
 export default function ModalScreen() {
   const loginMutation = useLoginMutation()
   const signupMutation = useSignupMutation()
   const { setUser } = useContext(UserContext)
+  const navigation = useNavigation()
 
   const handleSubmit = async (isLogin: boolean, values: { email: string, password: string }) => {
     const { email, password } = values
@@ -28,6 +30,9 @@ export default function ModalScreen() {
       let userToken = isLogin ? response?.data?.login : response?.data?.signup
       setUser({ email, token: userToken })
       Alert.alert('Success', 'You have successfully logged in')
+      setTimeout(() => {
+        navigation.navigate('Home')
+      }, 4000);
     } catch (error) {
       Alert.alert('Error', 'Something went wrong')
     }

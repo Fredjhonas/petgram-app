@@ -14,18 +14,19 @@ interface IPhotoCardProps {
     handleLike: (id: string) => void;
 }
 
-const PhotoCard = ({ src = DEFAULT_IMAGE, id, categoryId, liked, likes, handleLike }: IPhotoCardProps) => {
+const PhotoCard = ({ src = DEFAULT_IMAGE, id, categoryId, liked, likes, handleLike = () => { } }: IPhotoCardProps) => {
     const navigation = useNavigation();
     return (
         <Card style={styles.container} onPress={() => navigation.navigate('Home', { categoryId })}>
             <Card.Cover style={styles.cover} source={{ uri: src }} />
             <Card.Actions style={styles.actions}>
                 <Button
+                    compact
                     icon={liked ? 'heart' : 'heart-outline'}
                     labelStyle={[styles.button, { color: liked ? 'red' : 'black' }]}
                     onPress={() => handleLike(id)}>
-                    <Text style={styles.text}>{likes}</Text>
                 </Button>
+                <Text style={styles.text}>{likes}</Text>
             </Card.Actions>
         </Card>
     )
@@ -42,10 +43,9 @@ const styles = StyleSheet.create({
     },
     button: {
         fontSize: 35,
-        padding: 5,
     },
     actions: {
-        padding: 0
+        padding: 5
     },
     text: {
         fontSize: 20,

@@ -18,7 +18,7 @@ const BottomTabNavigator = () => {
 
     const bottoms = [
         { screen: 'Home', component: HomeScreen, iconRight: true, icon: 'home' },
-        { screen: 'Favorites', component: FavoriteScreen, iconRight: false, icon: 'heart' },
+        { screen: 'Favorites', component: FavoriteScreen, iconRight: true, icon: 'heart' },
     ]
 
     return (

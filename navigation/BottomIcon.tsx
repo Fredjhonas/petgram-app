@@ -2,7 +2,8 @@ import { Pressable, Text, StyleSheet } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import Colors from '../constants/Colors';
 import { useNavigation } from '@react-navigation/core';
-
+import { useContext, useEffect, useState } from 'react'
+import { UserContext } from '../Context/UserContext'
 interface IBottomIconProps {
     type: string;
     color: string;
@@ -11,23 +12,50 @@ interface IBottomIconProps {
 
 const BottomIcon = ({ type, color, name }: IBottomIconProps) => {
     const navigation = useNavigation();
+    const { getUser, isAuthenticated, removeUser } = useContext(UserContext);
+    const [userEmail, setUserEmail] = useState('')
+
+    const handleNavigate = () => {
+        if (isAuthenticated) {
+            removeUser()
+        } else {
+            navigation.navigate('Login')
+        }
+    }
+
+    const getUserData = async () => {
+        let user = await getUser()
+        if (user !== null) {
+            setUserEmail(user.email)
+        }
+        console.log('User', user)
+
+    }
+
+    useEffect(() => {
+        getUserData()
+    }, [isAuthenticated])
+
 
     const RightIcon = (props: { colorScheme: string }) => {
         return (
-            <Pressable
-                onPress={() => navigation.navigate('Login')}
-                style={({ pressed }) => ({
-                    opacity: pressed ? 0.5 : 1,
-                    flexDirection: 'row'
-                })}>
-                <Text style={[styles.textTop, { color: Colors[props.colorScheme]?.text }]}>Ingresar</Text>
-                <FontAwesome
-                    name="sign-in"
-                    size={30}
-                    color={Colors[props.colorScheme]?.text}
-                    style={{ marginRight: 15 }}
-                />
-            </Pressable>
+            <>
+                {isAuthenticated && <Text style={{ marginRight: 15 }}>Hola {userEmail}</Text>}
+                <Pressable
+                    onPress={() => handleNavigate()}
+                    style={({ pressed }) => ({
+                        opacity: pressed ? 0.5 : 1,
+                        flexDirection: 'row'
+                    })}>
+                    <Text style={[styles.textTop, { color: Colors[props.colorScheme]?.text }]}>{isAuthenticated ? 'Salir' : 'Ingresar'}</Text>
+                    <FontAwesome
+                        name={isAuthenticated ? 'sign-out' : 'sign-in'}
+                        size={30}
+                        color={Colors[props.colorScheme]?.text}
+                        style={{ marginRight: 15 }}
+                    />
+                </Pressable>
+            </>
         )
     }
 

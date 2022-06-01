@@ -1,4 +1,4 @@
-import { StyleSheet, FlatList } from 'react-native'
+import { StyleSheet, FlatList, Alert } from 'react-native'
 import { ActivityIndicator, Colors } from 'react-native-paper'
 import { useGetPhotosQuery, useLikePhotoMutation } from '../types/graphql'
 
@@ -14,11 +14,16 @@ const ListOfPhotoCards = ({ categoryId }: IListOfPhotoCardsProps) => {
   const likeMutation = useLikePhotoMutation()
 
   const handleLike = async (id: string) => {
-    await likeMutation[0]({
-      variables: {
-        input: { id },
-      }
-    })
+    try {
+      const response = await likeMutation[0]({
+        variables: {
+          input: { id },
+        }
+      })
+      console.log('Success like', response)
+    } catch (error) {
+      Alert.alert('Error', 'Something went wrong')
+    }
   }
 
   return (
