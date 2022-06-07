@@ -1,6 +1,6 @@
-import { StyleSheet, FlatList, Alert } from 'react-native'
+import { StyleSheet, FlatList, Alert, Platform } from 'react-native'
 import { ActivityIndicator, Colors } from 'react-native-paper'
-import { useGetPhotosQuery, useLikePhotoMutation } from '../types/graphql'
+import { useGetFavsQuery, useGetPhotosQuery, useLikePhotoMutation } from '../types/graphql'
 
 // components
 import PhotoCard from './PhotoCard'
@@ -11,6 +11,7 @@ interface IListOfPhotoCardsProps {
 
 const ListOfPhotoCards = ({ categoryId }: IListOfPhotoCardsProps) => {
   const { data } = useGetPhotosQuery({ variables: { categoryId } })
+  const { refetch } = useGetFavsQuery()
   const likeMutation = useLikePhotoMutation()
 
   const handleLike = async (id: string) => {
@@ -20,27 +21,29 @@ const ListOfPhotoCards = ({ categoryId }: IListOfPhotoCardsProps) => {
           input: { id },
         }
       })
-      console.log('Success like', response)
+      refetch()
+      console.log('Success like: ', response)
     } catch (error) {
-      Alert.alert('Error', 'Something went wrong')
+      let message = 'Something went wrong'
+      Platform.OS === 'web' ? window.alert(message) :
+        Alert.alert('Error', message)
     }
   }
 
   return (
-    !data ? <ActivityIndicator animating={true} color={Colors.blue700} /> :
-      <FlatList
-        style={styles.container}
-        data={data?.photos}
-        renderItem={({ item }) => <PhotoCard {...item} handleLike={handleLike} />}
-      />
+    <FlatList
+      contentContainerStyle={Platform.OS === 'web' ? styles.listContent : { paddingBottom: 200 }}
+      ListHeaderComponent={!data && <ActivityIndicator animating={true} color={Colors.blue700} />}
+      data={data?.photos}
+      renderItem={({ item }) => <PhotoCard {...item} handleLike={handleLike} />}
+    />
   )
 }
 
 export default ListOfPhotoCards
 
 const styles = StyleSheet.create({
-  container: {
-    padding: 20,
-    marginBottom: 200
+  listContent: {
+    height: window.innerHeight - 300
   }
 })

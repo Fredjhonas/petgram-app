@@ -29,17 +29,19 @@ export default function ModalScreen() {
       })
       let userToken = isLogin ? response?.data?.login : response?.data?.signup
       setUser({ email, token: userToken })
-      Alert.alert('Success', 'You have successfully logged in')
+      let message = 'You have successfully logged in'
+      Platform.OS === 'web' ? window.alert(message) : Alert.alert('Success', message)
       setTimeout(() => {
         navigation.navigate('Home')
       }, 4000);
     } catch (error) {
-      Alert.alert('Error', 'Something went wrong')
+      let message = 'Something went wrong'
+      Platform.OS === 'web' ? window.alert(message) : Alert.alert('Error', message)
     }
   }
 
   return (
-    <View style={styles.container}>
+    <View style={Platform.OS !== 'web' ? styles.container : styles.containerWeb}>
       <FormLogin onSubmit={handleSubmit} />
       {/* Use a light status bar on iOS to account for the black space above the modal */}
       <StatusBar style={Platform.OS === 'ios' ? 'light' : 'auto'} />
@@ -52,5 +54,11 @@ const styles = StyleSheet.create({
     padding: 15,
     justifyContent: 'center',
     flex: 1,
+  },
+  containerWeb: {
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    width: window.innerWidth > 400 ? 500 : window.innerWidth,
+    justifyContent: 'center',
   }
 });

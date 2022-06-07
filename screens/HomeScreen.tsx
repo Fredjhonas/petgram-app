@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Platform } from 'react-native';
 import { useEffect, useState } from 'react'
 import { useRoute } from '@react-navigation/native'
 
@@ -29,7 +29,7 @@ export default function HomeScreen() {
   }, [])
 
   return (
-    <View style={styles.container}>
+    <View style={Platform.OS !== 'web' ? styles.container : styles.containerWeb}>
       <ListOfCategories categories={categories} loading={loading} />
       <ListOfPhotoCards categoryId={categoryId} />
     </View>
@@ -42,4 +42,10 @@ const styles = StyleSheet.create({
     // alignItems: 'center',
     // justifyContent: 'center',
   },
+  containerWeb: {
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    width: window.innerWidth > 400 ? 500 : window.innerWidth,
+    justifyContent: 'center',
+  }
 });

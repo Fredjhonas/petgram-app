@@ -4,6 +4,7 @@ import Colors from '../constants/Colors';
 import { useNavigation } from '@react-navigation/core';
 import { useContext, useEffect, useState } from 'react'
 import { UserContext } from '../Context/UserContext'
+import { useGetPhotosQuery } from '../types/graphql';
 interface IBottomIconProps {
     type: string;
     color: string;
@@ -12,11 +13,13 @@ interface IBottomIconProps {
 
 const BottomIcon = ({ type, color, name }: IBottomIconProps) => {
     const navigation = useNavigation();
-    const { getUser, isAuthenticated, removeUser } = useContext(UserContext);
+    const { refetch } = useGetPhotosQuery()
+    const { getUser, isAuthenticated, removeUser, changeAuth } = useContext(UserContext);
     const [userEmail, setUserEmail] = useState('')
 
     const handleNavigate = () => {
         if (isAuthenticated) {
+            refetch()
             removeUser()
         } else {
             navigation.navigate('Login')
@@ -25,15 +28,17 @@ const BottomIcon = ({ type, color, name }: IBottomIconProps) => {
 
     const getUserData = async () => {
         let user = await getUser()
-        if (user !== null) {
+
+        if (user !== null && !isAuthenticated) {
+            changeAuth(true)
             setUserEmail(user.email)
         }
-        console.log('User', user)
-
     }
 
     useEffect(() => {
-        getUserData()
+        if (isAuthenticated) {
+            getUserData()
+        }
     }, [isAuthenticated])
 
 
