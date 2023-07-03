@@ -19,7 +19,9 @@ export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeNa
   return (
     <NavigationContainer
       linking={LinkingConfiguration}
-      theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+      // theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}
+      theme={DarkTheme}
+    >
       <RootNavigator />
     </NavigationContainer>
   );
@@ -37,7 +39,14 @@ function RootNavigator() {
       <Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false }} />
       <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
       <Stack.Group screenOptions={{ presentation: 'modal' }}>
-        <Stack.Screen name="Login" component={ModalScreen} />
+        <Stack.Screen
+          name="Login"
+          component={ModalScreen}
+          options={{
+            headerStyle: { backgroundColor: '#FFC900' },
+            headerTitleStyle: { color: '#2c2c2c' },
+            headerTintColor: '#2c2c2c',
+          }} />
       </Stack.Group>
     </Stack.Navigator>
   );

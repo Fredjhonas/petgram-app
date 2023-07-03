@@ -28,6 +28,7 @@ export const UserProvider = ({ children }: any) => {
   const getUser = async () => {
     const userData = await userHandler.getUser();
     let user = userData !== null ? userData : null;
+    setIsAuth(user !== null ? true : false);
     return user;
   };
 

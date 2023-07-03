@@ -31,6 +31,9 @@ const BottomTabNavigator = () => {
             initialRouteName="Home"
             screenOptions={{
                 tabBarActiveTintColor: Colors[colorScheme].tint,
+                headerStyle: {
+                    backgroundColor: '#FFC900',
+                },
             }}>
             {bottoms.map(({ screen, component, iconRight, icon }, index) => (
                 <BottomTab.Screen
@@ -44,7 +47,10 @@ const BottomTabNavigator = () => {
                             marginRight: 'auto',
                             width: window.innerWidth > 400 ? 500 : window.innerWidth,
                             justifyContent: 'center',
-                        } : {},
+                        } : {
+                            backgroundColor: '#FFC900',
+                        },
+                        tabBarInactiveTintColor: '#2c2c2c',
                         tabBarIcon: ({ color }) => <BottomIcon type={'bottom'} name={icon} color={color} />,
                         headerLeft: () => <Logo />,
                         headerRight: () => iconRight &&

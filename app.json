@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "petgram-app",
+    "name": "Petgram",
     "slug": "petgram-app",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -9,7 +9,7 @@
     "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./assets/images/splash.png",
-      "resizeMode": "contain",
+      "resizeMode": "cover",
       "backgroundColor": "#ffffff"
     },
     "updates": {
@@ -22,10 +22,12 @@
       "supportsTablet": true
     },
     "android": {
+      "icon": "./assets/icon.png",
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.petgram.py"
     },
     "web": {
       "favicon": "./assets/images/favicon.png"

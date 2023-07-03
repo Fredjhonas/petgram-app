@@ -22,8 +22,8 @@ const PhotoCard = ({ src = DEFAULT_IMAGE, id, categoryId, liked, likes, handleLi
             <Card.Actions style={styles.actions}>
                 <Button
                     compact
-                    icon={liked ? 'heart' : 'heart-outline'}
-                    labelStyle={[styles.button, { color: liked ? 'red' : 'black' }]}
+                    icon={liked || liked === undefined ? 'heart' : 'heart-outline'}
+                    labelStyle={[styles.button, { color: liked || liked === undefined ? 'red' : 'black' }]}
                     onPress={() => handleLike(id)}>
                 </Button>
                 <Text style={styles.text}>{likes}</Text>
@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
         height: 300,
     },
     button: {
-        fontSize: 35,
+        fontSize: 30,
     },
     actions: {
         padding: 5
